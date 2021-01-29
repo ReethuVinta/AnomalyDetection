@@ -163,7 +163,7 @@ class MNISTData(Dataset):
             self._data['num_classes'] = 2
             self._data['is_one_hot'] = use_one_hot
             self._data['in_data'] = images
-            self._data['in_shape'] = [28, 28, 1]
+            self._data['in_shape'] = [70, 1]
             self._data['out_shape'] = [2 if use_one_hot else 1]
             self._data['train_inds'] = train_inds
             self._data['test_inds'] = test_inds
@@ -253,7 +253,7 @@ class MNISTData(Dataset):
         plt.axis('off')
         if interactive:
             plt.ion()
-        plt.imshow(np.reshape(image, (28, 28)))
+        plt.imshow(np.reshape(image, (70, 1)))
         if file_name is not None:
             plt.savefig(file_name, bbox_inches='tight')
         else:

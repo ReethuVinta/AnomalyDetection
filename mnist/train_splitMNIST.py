@@ -908,7 +908,8 @@ def run(mode='split'):
     
     #### Get data handlers
     dhandlers_class = train_utils._generate_tasks(config, steps)
-
+    print("######################### see ikkada size 70 ravali but somehow 28 cmng",dhandlers_class[0].in_shape[0])
+    
     # decide if you want to train a replay model
     # in the case where you only want a classifier and you know the task id
     # we only train a classifier + hnet. Upper bound considers the replay case 
@@ -973,6 +974,7 @@ def run(mode='split'):
     ### Generate another classifier network.
     class_nets = train_utils.generate_classifier(config, 
                                                     dhandlers_class, device)
+
     ### Train the network.
     config.during_accs_final = train_tasks(dhandlers_class, dhandlers_rp, enc, 
                     dec, d_hnet, class_nets, device, config, writer, infer_net)

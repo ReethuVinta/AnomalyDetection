@@ -107,9 +107,9 @@ def _plotImages(X, config, cur_bs = None):
     else:
         X = X.detach().numpy()
     if cur_bs is None:
-        X = X.reshape(config.batch_size, 28 + add, 28 + add)
+        X = X.reshape(config.batch_size, 70 + add, 1 + add)
     else:
-        X = X.reshape(cur_bs, 28 + add, 28 + add)
+        X = X.reshape(cur_bs, 70 + add, 1 + add)
     num_plots = 4
 
     fig, ax = plt.subplots(3, 3)

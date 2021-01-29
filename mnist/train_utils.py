@@ -130,7 +130,7 @@ def _generate_tasks(config, steps = 2):
     elif config.experiment == "permutedMNIST":     
         rand = np.random.RandomState(config.data_random_seed)
         pd = config.padding*2
-        permutations = [None]+[rand.permutation((28+pd)*(28+pd))
+        permutations = [None]+[rand.permutation((70+pd)*(1+pd))
                                 for _ in range(config.num_tasks - 1)]
         if config.upper_bound:
             # FIXME Due to the current implementation of the
