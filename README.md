@@ -59,3 +59,4 @@ Lookup available options:
 ```bash
 python iBatchLearn.py -h
 ```
+This code is adapted from https://github.com/GT-RIPL/Continual-Learning-Benchmark  
