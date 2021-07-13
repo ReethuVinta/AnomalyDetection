@@ -2,7 +2,8 @@
 
 ## Dependencies 
 - We suggest to create new virtual environment and install these dependencies. 
-- ```pip install avalanche && pip install pandas```
+- ```pip install git+https://github.com/ContinualAI/avalanche.git```
+- ```pip install pandas```
 ## Dataset
 - Follow the instructions given in this [link](https://github.com/Kaggle/kaggle-api#api-credentials) for downloading the IDS2017 dataset from Kaggle API.
 - Place the csv files in the folder named `data/`
