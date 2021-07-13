@@ -103,14 +103,17 @@ else:
             temp.iloc[:, -1] = 1
         test_label_dict["cat" + str(i)] = temp
 
-    train_data_x = list(torch.Tensor(train_dict[key].to_numpy()) for key in train_dict)
+    train_data_x = list(torch.Tensor(
+        train_dict[key].to_numpy()) for key in train_dict)
     train_data_y = list(
-        torch.Tensor(train_label_dict[key].to_numpy()) for key in train_label_dict
+        torch.Tensor(train_label_dict[key].to_numpy().flatten()) for key in train_label_dict
     )
-    test_data_x = list(torch.Tensor(test_dict[key].to_numpy()) for key in test_dict)
+    test_data_x = list(torch.Tensor(
+        test_dict[key].to_numpy()) for key in test_dict)
     test_data_y = list(
-        torch.Tensor(test_label_dict[key].to_numpy()) for key in test_label_dict
+        torch.Tensor(test_label_dict[key].to_numpy().flatten()) for key in test_label_dict
     )
+
 
     with open("./data/train_data_x.pth", "wb") as f:
         pickle.dump(train_data_x, f)
@@ -162,6 +165,9 @@ def task_ordering(perm):
         final_test_data_x.append(temp_test_data_x)
         final_test_data_y.append(temp_test_data_y)
 
+    final_train_data_y = [x.long() for x in final_train_data_y]
+    final_test_data_y = [x.long() for x in final_test_data_y]
+    
     return final_train_data_x, final_train_data_y, final_test_data_x, final_test_data_y
 
 
@@ -247,3 +253,4 @@ for task_number, experience in enumerate(generic_scenario.train_stream):
     print("Computing accuracy on the whole test set")
     # test also returns a dictionary which contains all the metric values
     results.append(cl_strategy.eval(generic_scenario.test_stream))
+

@@ -48,25 +48,50 @@ dst_host_rerror_rate,
 dst_host_srv_rerror_rate"""
 
 cols = [c.strip() for c in cols.split(",") if c.strip()]
-cols.append("target")
+cols.append('target')
 
-kdd = pd.read_csv("./data/kddcup.data", names=cols)
+kdd = pd.read_csv("./data/kddcup.data",names=cols)
 
+# attacks_type = {
+# 'normal': 'normal',
+# 'back': 'dos',
+# 'buffer_overflow': 'u2r',
+# 'ftp_write': 'r2l',
+# 'guess_passwd': 'r2l',
+# 'imap': 'r2l',
+# 'ipsweep': 'probe',
+# 'land': 'dos',
+# 'loadmodule': 'u2r',
+# 'multihop': 'r2l',
+# 'neptune': 'dos',
+# 'nmap': 'probe',
+# 'perl': 'u2r',
+# 'phf': 'r2l',
+# 'pod': 'dos',
+# 'portsweep': 'probe',
+# 'rootkit': 'u2r',
+# 'satan': 'probe',
+# 'smurf': 'dos',
+# 'spy': 'r2l',
+# 'teardrop': 'dos',
+# 'warezclient': 'r2l',
+# 'warezmaster': 'r2l',
+#     }
 
 kdd.head(5)
 
-kdd_std = kdd.std()
-kdd_std = kdd_std.sort_values(ascending=True)
+kdd_std=kdd.std()
+kdd_std=kdd_std.sort_values(ascending=True)
 
-kdd.drop(["service", "is_host_login", "num_outbound_cmds"], axis=1, inplace=True)
+kdd.drop(["service","is_host_login","num_outbound_cmds"],axis=1,inplace=True)
 
 encoder = preprocessing.LabelEncoder()
 for c in kdd.columns:
-    if str(kdd[c].dtype) == "object":
+    if str(kdd[c].dtype) == 'object': 
         kdd[c] = encoder.fit_transform(kdd[c])
 
 scaler = StandardScaler(copy=True, with_mean=True, with_std=True)
-kdd[["dst_bytes", "src_bytes"]] = scaler.fit_transform(kdd[["dst_bytes", "src_bytes"]])
+kdd[['dst_bytes','src_bytes']] = scaler.fit_transform(kdd[['dst_bytes','src_bytes']])
 
-with open("./data/kdd_df.pth", "wb") as f:
-    pickle.dump(kdd, f)
+with open('./data/kdd_df.pth','wb') as f:
+    pickle.dump(kdd,f) 

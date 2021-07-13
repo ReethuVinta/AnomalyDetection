@@ -2,7 +2,8 @@
 
 ## Dependencies 
 - We suggest to create new virtual environment and install these dependencies. 
-- ```pip install avalanche && pip install pandas```
+- ```pip install git+https://github.com/ContinualAI/avalanche.git```
+- ```pip install pandas```
 ## Dataset
 - Create a folder named `data/` in current working directory and cd into it
 - Download datset by ``` wget http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data.gz ```
