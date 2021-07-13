@@ -1,7 +1,7 @@
 import pickle
 import warnings
 from datetime import datetime
-from os import path
+import os 
 from typing import Callable, Dict, Iterable
 
 import numpy as np

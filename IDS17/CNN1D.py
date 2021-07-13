@@ -24,13 +24,12 @@ from avalanche.evaluation.metrics import (
 from avalanche.logging import InteractiveLogger, TensorboardLogger, TextLogger
 from avalanche.models import SimpleMLP
 from avalanche.training.plugins import EvaluationPlugin
-from avalanche.training.strategies import GEM
+from avalanche.training.strategies import GEM,EWC 
 from sklearn.manifold import TSNE
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
 from torch.nn import CrossEntropyLoss
 from torch.optim import Adam
 from torch.utils.data import Dataset, Subset
-from torchsummary import summary
 from torchvision import transforms
 import sys
 

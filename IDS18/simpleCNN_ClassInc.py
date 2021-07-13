@@ -331,7 +331,7 @@ for task_order in range(len(task_order_list)):
     print("Starting experiment...")
 
     os.makedirs(
-        os.path.join("weights", f"CNN2D_ClassInc_0inTask{task_order+1}", exist_ok=True)
+        os.path.join("weights", f"CNN2D_ClassInc_0inTask{task_order+1}"), exist_ok=True
     )
 
     results = []

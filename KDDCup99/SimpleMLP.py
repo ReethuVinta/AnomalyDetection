@@ -49,7 +49,7 @@ test_data_y = []
 cache_label = "./data/train_data_x.pth"
 # Normal = 0
 # Attack = 1
-if path.exists(cache_label):
+if os.path.exists(cache_label):
 
     with open("./data/train_data_x.pth", "rb") as f:
         train_data_x = pickle.load(f)
@@ -178,9 +178,9 @@ perm = {
     "5": [3, 4, 5, 16],
 }
 
-task_order_list = [perm1]
+task_order_list = [perm]
 
-dataset = task_ordering(task_order_list[task_order])
+dataset = task_ordering(task_order_list[0])
 
 generic_scenario = tensor_scenario(
     train_data_x=dataset[0],
@@ -188,7 +188,7 @@ generic_scenario = tensor_scenario(
     test_data_x=dataset[2],
     test_data_y=dataset[3],
     task_labels=[
-        0 for key in task_order_list[task_order].keys()
+        0 for key in task_order_list[0].keys()
     ],  # shouldn't provide task ID for inference
 )
 
@@ -227,7 +227,7 @@ cl_strategy = GEM(
 # TRAINING LOOP
 print("Starting experiment...")
 
-os.makedirs(os.path.join("weights", f"SimpleMLP", exist_ok=True))
+os.makedirs(os.path.join("weights", f"SimpleMLP"), exist_ok=True)
 
 results = []
 i = 1

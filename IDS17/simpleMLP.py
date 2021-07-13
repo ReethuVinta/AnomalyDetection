@@ -16,7 +16,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torchvision
-from avalanche.benchmarks.generators import tensor_scenario
+from avalanche.benchmarks.generators import tensors_benchmark
 from avalanche.evaluation.metrics import (
     ExperienceForgetting,
     StreamConfusionMatrix,
@@ -129,11 +129,13 @@ else:
             temp.loc[:, "70"] = 1
         test_label_dict["cat" + str(i)] = temp
 
-    train_data_x = list(torch.Tensor(train_dict[key].to_numpy()) for key in train_dict)
+    train_data_x = list(torch.Tensor(
+        train_dict[key].to_numpy()) for key in train_dict)
     train_data_y = list(
         torch.Tensor(train_label_dict[key].to_numpy()) for key in train_label_dict
     )
-    test_data_x = list(torch.Tensor(test_dict[key].to_numpy()) for key in test_dict)
+    test_data_x = list(torch.Tensor(
+        test_dict[key].to_numpy()) for key in test_dict)
     test_data_y = list(
         torch.Tensor(test_label_dict[key].to_numpy()) for key in test_label_dict
     )
@@ -166,8 +168,8 @@ def task_ordering(perm: dict):
     """
     final_train_data_x = []
     final_train_data_y = []
-    final_test_data_x = torch.Tensor([])
-    final_test_data_y = torch.Tensor([])
+    final_test_data_x = []
+    final_test_data_y = []
 
     for key, values in perm.items():
         temp_train_data_x = torch.Tensor([])
@@ -176,15 +178,20 @@ def task_ordering(perm: dict):
         temp_test_data_y = torch.Tensor([])
 
         for value in values:
-            temp_train_data_x = torch.cat([temp_train_data_x, train_data_x[value]])
-            temp_train_data_y = torch.cat([temp_train_data_y, train_data_y[value]])
-            temp_test_data_x = torch.cat([temp_test_data_x, test_data_x[value]])
-            temp_test_data_y = torch.cat([temp_test_data_y, test_data_y[value]])
+            temp_train_data_x = torch.cat(
+                [temp_train_data_x, train_data_x[value]])
+            temp_train_data_y = torch.cat(
+                [temp_train_data_y, train_data_y[value]])
+            temp_test_data_x = torch.cat(
+                [temp_test_data_x, test_data_x[value]])
+            temp_test_data_y = torch.cat(
+                [temp_test_data_y, test_data_y[value]])
 
         final_train_data_x.append(temp_train_data_x)
         final_train_data_y.append(temp_train_data_y)
-        final_test_data_x = torch.cat([final_test_data_x, temp_test_data_x])
-        final_test_data_y = torch.cat([final_test_data_y, temp_test_data_y])
+        final_test_data_x.append(temp_test_data_x)
+        final_test_data_y.append(temp_test_data_y)
+
     return final_train_data_x, final_train_data_y, final_test_data_x, final_test_data_y
 
 
@@ -238,12 +245,10 @@ task_order_list = [perm1, perm2, perm3, perm4, perm5]
 for task_order in range(len(task_order_list)):
     print("Current task order processing ", task_order + 1)
     dataset = task_ordering(task_order_list[task_order])
-
-    generic_scenario = tensor_scenario(
-        train_data_x=dataset[0],
-        train_data_y=dataset[1],
-        test_data_x=dataset[2],
-        test_data_y=dataset[3],
+    print('Len of datasets: ', dataset[0].shape, dataset[2].shape)
+    generic_scenario = tensors_benchmark(
+        train_tensors=[(x, y) for x, y in zip(dataset[0], dataset[1])],
+        test_tensors=[(x, y) for x, y in zip(dataset[2], dataset[3])],
         task_labels=[
             0 for key in task_order_list[task_order].keys()
         ],  # shouldn't provide task ID for inference
@@ -256,20 +261,23 @@ for task_order in range(len(task_order_list)):
 
     # log to text file
     text_logger = TextLogger(
-        open(f"./logs/{cur_time}_simple_mlp_task_0_in_task{task_order}.txt", "w+")
+        open(
+            f"./logs/{cur_time}_simple_mlp_task_0_in_task{task_order}.txt", "w+")
     )
 
     # print to stdout
     interactive_logger = InteractiveLogger()
 
     eval_plugin = EvaluationPlugin(
-        accuracy_metrics(minibatch=True, epoch=True, experience=True, stream=True),
+        accuracy_metrics(minibatch=True, epoch=True,
+                         experience=True, stream=True),
         loss_metrics(minibatch=True, epoch=True, experience=True, stream=True),
         timing_metrics(epoch=True, epoch_running=True),
         ExperienceForgetting(),
         cpu_usage_metrics(experience=True),
         StreamConfusionMatrix(num_classes=2, save_image=False),
-        disk_usage_metrics(minibatch=True, epoch=True, experience=True, stream=True),
+        disk_usage_metrics(minibatch=True, epoch=True,
+                           experience=True, stream=True),
         loggers=[interactive_logger, text_logger, tb_logger],
     )
 
@@ -301,7 +309,7 @@ for task_order in range(len(task_order_list)):
     # TRAINING LOOP
     print("Starting experiment...")
     os.makedirs(
-        os.path.join("weights", f"SimpleMLP_0_in_task_{task_order+1}", exist_ok=True)
+        os.path.join("weights", f"SimpleMLP_0_in_task_{task_order+1}"), exist_ok=True
     )
 
     results = []

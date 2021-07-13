@@ -11,3 +11,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+
+IDS17/archive
+IDS17/data

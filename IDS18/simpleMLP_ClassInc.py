@@ -158,7 +158,7 @@ else:
         pickle.dump(test_data_y, f)
 
 
-def task_ordering(perm: dict):
+def task_ordering(perm):
     """Divides Data into tasks based on the given permutation order
 
     Parameters
@@ -173,8 +173,8 @@ def task_ordering(perm: dict):
     """
     final_train_data_x = []
     final_train_data_y = []
-    final_test_data_x = torch.Tensor([])
-    final_test_data_y = torch.Tensor([])
+    final_test_data_x = []
+    final_test_data_y = []
 
     for key, values in perm.items():
         temp_train_data_x = torch.Tensor([])
@@ -183,17 +183,17 @@ def task_ordering(perm: dict):
         temp_test_data_y = torch.Tensor([])
 
         for value in values:
-            temp_train_data_x = torch.cat([temp_train_data_x, train_data_x[value]])
-            temp_train_data_y = torch.cat([temp_train_data_y, train_data_y[value]])
-            temp_test_data_x = torch.cat([temp_test_data_x, test_data_x[value]])
-            temp_test_data_y = torch.cat([temp_test_data_y, test_data_y[value]])
+            temp_train_data_x = torch.cat([temp_train_data_x, train_data_x[value - 1]])
+            temp_train_data_y = torch.cat([temp_train_data_y, train_data_y[value - 1]])
+            temp_test_data_x = torch.cat([temp_test_data_x, test_data_x[value - 1]])
+            temp_test_data_y = torch.cat([temp_test_data_y, test_data_y[value - 1]])
 
         final_train_data_x.append(temp_train_data_x)
         final_train_data_y.append(temp_train_data_y)
-        final_test_data_x = torch.cat([final_test_data_x, temp_test_data_x])
-        final_test_data_y = torch.cat([final_test_data_y, temp_test_data_y])
-    return final_train_data_x, final_train_data_y, final_test_data_x, final_test_data_y
+        final_test_data_x.append(temp_test_data_x)
+        final_test_data_y.append(temp_test_data_y)
 
+    return final_train_data_x, final_train_data_y, final_test_data_x, final_test_data_y
 
 # Model Creation
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -308,7 +308,7 @@ for task_order in range(len(task_order_list)):
     # TRAINING LOOP
     print("Starting experiment...")
     os.makedirs(
-        os.path.join("weights", f"SimpleMLP_0_in_task_{task_order+1}", exist_ok=True)
+        os.path.join("weights", f"SimpleMLP_0_in_task_{task_order+1}"), exist_ok=True
     )
 
     results = []

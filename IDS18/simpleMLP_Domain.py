@@ -232,7 +232,7 @@ cl_strategy = GEM(
 # TRAINING LOOP
 print("Starting experiment...")
 
-os.makedirs(os.path.join("weights", f"simpleMLP_Domain", exist_ok=True))
+os.makedirs(os.path.join("weights", f"simpleMLP_Domain"), exist_ok=True)
 
 results = []
 
