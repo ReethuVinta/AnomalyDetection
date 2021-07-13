@@ -314,7 +314,7 @@ for task_order in range(len(task_order_list)):
     # TRAINING LOOP
     print("Starting experiment...")
 
-    os.makedirs(os.path.join("weights", f"CNN2D_0inTask{task_order+1}", exist_ok=True))
+    os.makedirs(os.path.join("weights", f"CNN2D_0inTask{task_order+1}"), exist_ok=True)
 
     results = []
 
