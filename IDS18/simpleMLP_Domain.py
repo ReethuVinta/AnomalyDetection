@@ -164,10 +164,10 @@ def task_ordering(perm):
         temp_test_data_y = torch.Tensor([])
 
         for value in values:
-            temp_train_data_x = torch.cat([temp_train_data_x, train_data_x[value - 1]])
-            temp_train_data_y = torch.cat([temp_train_data_y, train_data_y[value - 1]])
-            temp_test_data_x = torch.cat([temp_test_data_x, test_data_x[value - 1]])
-            temp_test_data_y = torch.cat([temp_test_data_y, test_data_y[value - 1]])
+            temp_train_data_x = torch.cat([temp_train_data_x, train_data_x[value]])
+            temp_train_data_y = torch.cat([temp_train_data_y, train_data_y[value]])
+            temp_test_data_x = torch.cat([temp_test_data_x, test_data_x[value]])
+            temp_test_data_y = torch.cat([temp_test_data_y, test_data_y[value]])
 
         final_train_data_x.append(temp_train_data_x)
         final_train_data_y.append(temp_train_data_y)
