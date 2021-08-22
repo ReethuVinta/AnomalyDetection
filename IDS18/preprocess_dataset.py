@@ -55,9 +55,9 @@ def main():
     print("======Starting Concat========",flush=True)
 
     for filename in data_files:
-        if filename =="data/CSVs/02-20-2018.csv":
+        if filename =="data/02-20-2018.csv":
             continue
-        elif filename=="data/CSVs/02-16-2018.csv" or filename=="data/CSVs/02-28-2018.csv" or filename=="data/CSVs/03-01-2018.csv":
+        elif filename=="data/02-16-2018.csv" or filename=="data/02-28-2018.csv" or filename=="data/03-01-2018.csv":
             print(f"======={filename}======",flush=True)
             print(f"file size: {os.path.getsize(filename) / (1024**2)} MB",flush=True)
             df = pd.concat([df, reduce_mem_usage(pd.read_csv(filename, low_memory=False, index_col=False,names=columns))],ignore_index=True)
