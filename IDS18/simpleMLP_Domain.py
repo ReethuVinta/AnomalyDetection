@@ -90,7 +90,7 @@ else:
     test_label_dict = {}
 
     # Labelling classses as 0 or 1 based on type of class.
-    for i in range(y_train.iloc[:, -1].nunique()):
+    for i in range(1,(y_train.iloc[:, -1].nunique()+1)):
         train_dict["cat" + str(i)] = X_train[y_train.iloc[:, -1] == i]
 
         temp = y_train[y_train.iloc[:, -1] == i]
@@ -103,7 +103,7 @@ else:
 
         train_label_dict["cat" + str(i)] = temp
 
-    for i in range(y_test.iloc[:, -1].nunique()):
+    for i in range(1,(y_test.iloc[:, -1].nunique()+1)):
         test_dict["cat" + str(i)] = X_test[y_test.iloc[:, -1] == i]
 
         temp = y_test[y_test.iloc[:, -1] == i]
@@ -164,10 +164,10 @@ def task_ordering(perm):
         temp_test_data_y = torch.Tensor([])
 
         for value in values:
-            temp_train_data_x = torch.cat([temp_train_data_x, train_data_x[value]])
-            temp_train_data_y = torch.cat([temp_train_data_y, train_data_y[value]])
-            temp_test_data_x = torch.cat([temp_test_data_x, test_data_x[value]])
-            temp_test_data_y = torch.cat([temp_test_data_y, test_data_y[value]])
+            temp_train_data_x = torch.cat([temp_train_data_x, train_data_x[value-1]])
+            temp_train_data_y = torch.cat([temp_train_data_y, train_data_y[value-1]])
+            temp_test_data_x = torch.cat([temp_test_data_x, test_data_x[value-1]])
+            temp_test_data_y = torch.cat([temp_test_data_y, test_data_y[value-1]])
 
         final_train_data_x.append(temp_train_data_x)
         final_train_data_y.append(temp_train_data_y)
