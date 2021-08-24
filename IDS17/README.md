@@ -13,3 +13,5 @@
 
 ## To run the model 
 - ```python preprocess_dataset.py && python [simpleMLP | CNN2D].py```
+## Recomendation
+- we strongly advise you to use two different data directories for simpleMLP.py and CNN2D.py
